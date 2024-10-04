@@ -1,0 +1,61 @@
+==========BEGIN DEBUG LOG==========
+Current time: 2024-10-04 02:03:10
+===================================
+Index generated: 5, of pieces size: 7
+Index generated: 3, of pieces size: 6
+Constructing game.
+Attempting to move piece left.
+Attempting to move piece left.
+Attempting to move piece left.
+Attempting to move piece left.
+FAILED to move piece left!
+Attempting to move piece left.
+FAILED to move piece left!
+Locking piece.
+Index generated: 4, of pieces size: 5
+0 lines cleared.
+Attempting to move piece right.
+Attempting to move piece right.
+Attempting to move piece right.
+Attempting to move piece right.
+Attempting to move piece right.
+FAILED to move piece right!
+Locking piece.
+Index generated: 0, of pieces size: 4
+0 lines cleared.
+Attempting to move piece left.
+Attempting to move piece right.
+Attempting to rotate piece clockwise.
+Attempting to move piece left.
+Attempting to move piece left.
+Attempting to move piece left.
+Attempting to move piece left.
+Locking piece.
+Index generated: 1, of pieces size: 3
+0 lines cleared.
+Locking piece.
+Index generated: 1, of pieces size: 2
+0 lines cleared.
+Locking piece.
+Index generated: 0, of pieces size: 1
+0 lines cleared.
+Attempting to rotate piece clockwise.
+Attempting to move piece right.
+Attempting to move piece right.
+Locking piece.
+Index generated: 4, of pieces size: 7
+Clearing row 19.
+1 lines cleared.
+Attempting to rotate piece clockwise.
+Attempting to rotate piece clockwise.
+Attempting to rotate piece clockwise.
+Attempting to move piece right.
+Attempting to rotate piece clockwise.
+Attempting to move piece right.
+Attempting to move piece right.
+Attempting to move piece right.
+Attempting to move piece right.
+FAILED to move piece right!
+Locking piece.
+Index generated: 3, of pieces size: 6
+0 lines cleared.
