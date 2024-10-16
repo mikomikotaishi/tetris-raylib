@@ -3,9 +3,15 @@ SELF_DIR := $(shell pwd)
 DIRECTORIES = include src src/game src/grid src/piece src/utility
 INC = $(addprefix -I$(SELF_DIR)/,$(DIRECTORIES)) -I$(SELF_DIR)/.
 SOURCES = $(wildcard $(addsuffix /*.cpp,$(DIRECTORIES))) $(wildcard *.cpp)  # List of all .cpp files
-CXXFLAGS = -fsanitize=address -I/usr/include -Wall -g -MMD -O2 -Werror=vla -Werror=vla ${INC} # Compilation flags
-# -fsanitize=address for debugging in CXXFLAGS and LDFLAGS
+
+# Final release flags
+# CXXFLAGS = -fsanitize=address -I/usr/include -Wall -g -MMD -O2 -Werror=vla -Werror=vla ${INC} # Compilation flags
+# LDFLAGS = -fsanitize=address -lraylib -lm -lpthread -ldl -lrt -lX11 # Linking flags
+
+# Debug flags
+CXXFLAGS = -D_DEBUG -fsanitize=address -I/usr/include -Wall -g -MMD -O2 -Werror=vla -Werror=vla ${INC} # Compilation flags
 LDFLAGS = -fsanitize=address -lraylib -lm -lpthread -ldl -lrt -lX11 # Linking flags
+
 BUILD_DIR = bin
 OBJECTS = $(patsubst %.cpp, $(BUILD_DIR)/%.o, ${SOURCES})  # .o files in the bin directory
 DEPENDS = $(OBJECTS:.o=.d)   # .d files in the bin directory

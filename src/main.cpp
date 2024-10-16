@@ -71,9 +71,12 @@ i32 main(i32 argc, char* argv[]) {
     } catch (const std::runtime_error& e) {
         std::cerr << "Runtime error: " << e.what() << std::endl;
         return 4;
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Range error: " << e.what() << std::endl;
+        return 5;
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
-        return 5;
+        return 6;
     } catch (...) {
         std::cerr << "Unknown error" << std::endl;
         return -1;

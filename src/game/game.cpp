@@ -1,6 +1,10 @@
 #include "game.hpp"
 
 bool eventTriggered(f64 interval, f64& lastUpdateTime, const raylib::Window& window) {
+    #ifdef _DEBUG
+    assert(interval >= 0);
+    assert(lastUpdateTime >= 0);
+    #endif
     f64 currentTime = window.GetTime();
     if (currentTime - lastUpdateTime >= interval) {
         lastUpdateTime = currentTime;
@@ -61,7 +65,11 @@ Piece Game::getRandomPiece() {
     usize randomIndex = dis(gen);
     if (debug)
         DEBUG << "Index generated: " << randomIndex << ", of pieces size: " << pieces.size() << "\n";
+    #ifdef _DEBUG
+    Piece p = pieces.at(randomIndex);
+    #else
     Piece p = pieces[randomIndex];
+    #endif
     pieces.erase(pieces.begin() + randomIndex);
     return p;
 }
@@ -218,8 +226,10 @@ void Game::rotatePieceCounterclockwise() {
 }
 
 void Game::updateScore(u8 linesCleared, u8 movedDown) {
+    #ifdef _DEBUG
     assert(linesCleared <= 4);
     assert(movedDown <= 20);
+    #endif
     switch (linesCleared) {
         case 1:
             score += 100;
