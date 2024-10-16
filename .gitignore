@@ -5,9 +5,9 @@ compile_commands.json
 /.envrc
 
 # IDEs
-.vs/
-.vscode/
-.idea/
+/.vs/
+/.vscode/
+/.idea/
 
 # Prerequisites
 *.d
