@@ -27,4 +27,4 @@ Debug& Debug::operator<<(const T& message) {
     return *this;
 }
 
-extern Debug DEBUG;
+extern Debug debugLogger;

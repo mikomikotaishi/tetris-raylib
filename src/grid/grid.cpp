@@ -6,7 +6,7 @@ Grid::Grid():
 
 void Grid::reinitialiseGrid() {
     for (usize i = 0; i < NUM_ROWS; ++i) for (usize j = 0; j < NUM_COLS; ++j) {
-        #ifdef _DEBUG
+        #ifdef DEBUG
         grid.at(i).at(j) = 0;
         #else
         grid[i][j] = 0;
@@ -16,7 +16,7 @@ void Grid::reinitialiseGrid() {
 
 void Grid::drawGrid() const {
     for (usize i = 0; i < NUM_ROWS; ++i) for (usize j = 0; j < NUM_COLS; ++j) {
-        #ifdef _DEBUG
+        #ifdef DEBUG
         i32 cellValue = grid.at(i).at(j);
         raylib::Rectangle cell = raylib::Rectangle(j * CELL_SIZE + GRID_OFFSET + 1, i * CELL_SIZE + GRID_OFFSET + 1, CELL_SIZE - 1, CELL_SIZE - 1);
         cell.Draw(COLOUR_LIST.at(cellValue));
@@ -29,7 +29,7 @@ void Grid::drawGrid() const {
 }
 
 bool Grid::isCellEmpty(u8 row, u8 column) const {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(row < 20);
     assert(column < 10);
     return grid.at(row).at(column) == 0;
@@ -43,11 +43,11 @@ bool Grid::isCellOutside(u8 row, u8 column) const {
 }
 
 bool Grid::isRowFull(u8 row) const {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(row < 20);
     #endif
     for (usize column = 0; column < NUM_COLS; ++column) {
-        #ifdef _DEBUG
+        #ifdef DEBUG
         if (grid.at(row).at(column) == 0)
             return false;
         #else
@@ -59,11 +59,11 @@ bool Grid::isRowFull(u8 row) const {
 }
 
 void Grid::clearRow(u8 row) {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(row < 20);
     #endif
     for (usize column = 0; column < NUM_COLS; ++column) {
-        #ifdef _DEBUG
+        #ifdef DEBUG
         grid.at(row).at(column) = 0;
         #else
         grid[row][column] = 0;
@@ -72,12 +72,12 @@ void Grid::clearRow(u8 row) {
 }
 
 void Grid::shiftRowDown(u8 row, u8 shift) {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(row < 20);
     assert(row + shift < 20);
     #endif
     for (usize column = 0; column < NUM_COLS; ++column) {
-        #ifdef _DEBUG
+        #ifdef DEBUG
         grid.at(row + shift).at(column) = grid.at(row).at(column);
         grid.at(row).at(column) = 0;
         #else
@@ -92,14 +92,14 @@ u8 Grid::clearFullRows() {
     for (i32 i = NUM_ROWS - 1; i >= 0; --i) { 
         if (isRowFull(i)) {
             if (debug)
-                DEBUG << "Clearing row " << i << ".\n";
+                debugLogger << "Clearing row " << i << ".\n";
             clearRow(i);
             ++completedRows;
         } else if (completedRows > 0)
             shiftRowDown(i, completedRows);
     }
     if (debug)
-        DEBUG << static_cast<i32>(completedRows) << " lines cleared.\n";
+        debugLogger << static_cast<i32>(completedRows) << " lines cleared.\n";
     return completedRows;
 }
 
@@ -107,7 +107,7 @@ u8 Grid::clearFullRows() {
 void Grid::printGrid() const {
     for (usize i = 0; i < NUM_ROWS; ++i) {
         for (usize j = 0; j < NUM_COLS; ++j) {
-            #ifdef _DEBUG
+            #ifdef DEBUG
             std::cout << grid.at(i).at(j) << " ";
             #else
             std::cout << grid[i][j] << " ";
@@ -118,7 +118,7 @@ void Grid::printGrid() const {
 }
 
 void Grid::setCell(u8 row, u8 col, u8 colourVal) {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(row < 20);
     assert(col < 10);
     assert(colourVal >= 1 && colourVal <= 7);

@@ -6,7 +6,7 @@
 #include "game.hpp"
 #include "utility.hpp"
 
-Debug DEBUG;
+Debug debugLogger;
 
 // Global mutable debug flags
 bool debug = false;
@@ -24,7 +24,7 @@ i32 main(i32 argc, char* argv[]) {
                 printHelp();
                 return 0;
             } else if (
-                #ifdef _DEBUG
+                #ifdef DEBUG
                 true
                 #else
                 ip.optionExists("-d") || ip.optionExists("-debug")

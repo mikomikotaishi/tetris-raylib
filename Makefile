@@ -9,7 +9,7 @@ SOURCES = $(wildcard $(addsuffix /*.cpp,$(DIRECTORIES))) $(wildcard *.cpp)  # Li
 # LDFLAGS = -fsanitize=address -lraylib -lm -lpthread -ldl -lrt -lX11 # Linking flags
 
 # Debug flags
-CXXFLAGS = -D_DEBUG -fsanitize=address -I/usr/include -Wall -g -MMD -O2 -Werror=vla -Werror=vla ${INC} # Compilation flags
+CXXFLAGS = -DDEBUG -fsanitize=address -I/usr/include -Wall -g -MMD -O2 -Werror=vla -Werror=vla ${INC} # Compilation flags
 LDFLAGS = -fsanitize=address -lraylib -lm -lpthread -ldl -lrt -lX11 # Linking flags
 
 BUILD_DIR = bin

@@ -17,7 +17,7 @@ InputParser::InputParser(i32 argc, char* argv[]) {
 
 InputParser::InputParser(i32 argc, char* argv[], const std::vector<std::string>& validOptions): 
     validOptions(validOptions) {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(argc >= 1);
     #endif
     bool foundValue = false;

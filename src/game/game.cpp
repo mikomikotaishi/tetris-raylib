@@ -1,7 +1,7 @@
 #include "game.hpp"
 
 bool eventTriggered(f64 interval, f64& lastUpdateTime, const raylib::Window& window) {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(interval >= 0);
     assert(lastUpdateTime >= 0);
     #endif
@@ -20,7 +20,7 @@ Game::Game():
     rotateSound{LoadSound("assets/sounds/rotate.mp3")},
     music{LoadMusicStream("assets/sounds/music.mp3")} {
     if (debug)
-        DEBUG << "Constructing game." << "\n";
+        debugLogger << "Constructing game." << "\n";
     InitAudioDevice();
     PlayMusicStream(music);
 }
@@ -42,7 +42,7 @@ void Game::setGameOverState(bool state) {
 
 void Game::resetGame() {
     if (debug)
-        DEBUG << "Game resetting.\n";
+        debugLogger << "Game resetting.\n";
     g.reinitialiseGrid();
     pieces = getAllPieces();
     currentPiece = getRandomPiece();
@@ -64,8 +64,8 @@ Piece Game::getRandomPiece() {
     std::uniform_int_distribution<> dis(0, pieces.size() - 1);
     usize randomIndex = dis(gen);
     if (debug)
-        DEBUG << "Index generated: " << randomIndex << ", of pieces size: " << pieces.size() << "\n";
-    #ifdef _DEBUG
+        debugLogger << "Index generated: " << randomIndex << ", of pieces size: " << pieces.size() << "\n";
+    #ifdef DEBUG
     Piece p = pieces.at(randomIndex);
     #else
     Piece p = pieces[randomIndex];
@@ -121,11 +121,11 @@ void Game::displayGameOver(const raylib::Font& font) const {
 void Game::movePieceLeft() {
     if (!getGameOverState()) {
         if (debug)
-            DEBUG << "Attempting to move piece left.\n";
+            debugLogger << "Attempting to move piece left.\n";
         currentPiece.movePiece(0, -1);
         if (isPieceOutside() || !pieceFits()) {
             if (debug)
-                DEBUG << "FAILED to move piece left!\n";
+                debugLogger << "FAILED to move piece left!\n";
             currentPiece.movePiece(0, 1);
         }
     }
@@ -134,11 +134,11 @@ void Game::movePieceLeft() {
 void Game::movePieceRight() {
     if (!getGameOverState()) {
         if (debug)
-            DEBUG << "Attempting to move piece right.\n";
+            debugLogger << "Attempting to move piece right.\n";
         currentPiece.movePiece(0, 1);
         if (isPieceOutside() || !pieceFits()) {
             if (debug)
-                DEBUG << "FAILED to move piece right!\n";
+                debugLogger << "FAILED to move piece right!\n";
             currentPiece.movePiece(0, -1);
         }
     }
@@ -146,14 +146,14 @@ void Game::movePieceRight() {
 
 void Game::lockPiece() {
     if (debug)
-        DEBUG << "Locking piece.\n";
+        debugLogger << "Locking piece.\n";
     std::array<Position, NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
     for (const Position& tile: tiles)
         g.setCell(tile.getRow(), tile.getColumn(), currentPiece.getID());
     currentPiece = nextPiece;
     if (!pieceFits()) {
         if (debug)
-            DEBUG << "Game over!\nEnding game.\n";
+            debugLogger << "Game over!\nEnding game.\n";
         setGameOverState(true);
     }
     nextPiece = getRandomPiece();
@@ -185,7 +185,7 @@ void Game::movePieceDown() {
 void Game::slamPiece() {
     if (!getGameOverState()) {
         if (debug)
-            DEBUG << "Attempting to slam piece.\n";
+            debugLogger << "Attempting to slam piece.\n";
         while (true) {
             currentPiece.movePiece(1, 0);
             if (isPieceOutside() || !pieceFits()) {
@@ -200,11 +200,11 @@ void Game::slamPiece() {
 void Game::rotatePieceClockwise() {
     if (!getGameOverState()) {
         if (debug)
-            DEBUG << "Attempting to rotate piece clockwise.\n";
+            debugLogger << "Attempting to rotate piece clockwise.\n";
         currentPiece.rotatePieceClockwise();
         if (isPieceOutside() || !pieceFits()) {
             if (debug)
-                DEBUG << "FAILED to rotate piece clockwise!\n";
+                debugLogger << "FAILED to rotate piece clockwise!\n";
             currentPiece.rotatePieceCounterclockwise();
         } else 
             PlaySound(rotateSound);
@@ -214,11 +214,11 @@ void Game::rotatePieceClockwise() {
 void Game::rotatePieceCounterclockwise() {
     if (!getGameOverState()) {
         if (debug)
-            DEBUG << "Attempting to rotate piece counterclockwise.\n";
+            debugLogger << "Attempting to rotate piece counterclockwise.\n";
         currentPiece.rotatePieceCounterclockwise();
         if (isPieceOutside() || !pieceFits()) {
             if (debug)
-                DEBUG << "FAILED to rotate piece counterclockwise!\n";
+                debugLogger << "FAILED to rotate piece counterclockwise!\n";
             currentPiece.rotatePieceClockwise();
         } else 
             PlaySound(rotateSound);
@@ -226,7 +226,7 @@ void Game::rotatePieceCounterclockwise() {
 }
 
 void Game::updateScore(u8 linesCleared, u8 movedDown) {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(linesCleared <= 4);
     assert(movedDown <= 20);
     #endif

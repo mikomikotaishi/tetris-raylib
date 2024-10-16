@@ -16,14 +16,14 @@ u8 Position::getColumn() const {
 }
 
 void Position::setRow(u8 newRow) {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(newRow < 20);
     #endif
     row = newRow;
 }
 
 void Position::setColumn(u8 newColumn) {
-    #ifdef _DEBUG
+    #ifdef DEBUG
     assert(newColumn < 10);
     #endif
     column = newColumn;
