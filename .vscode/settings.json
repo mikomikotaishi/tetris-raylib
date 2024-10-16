@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "*.tpp": "cpp",
-        "stdexcept": "cpp",
-        "iosfwd": "cpp",
-        "chrono": "cpp",
-        "array": "cpp"
-    }
-}
