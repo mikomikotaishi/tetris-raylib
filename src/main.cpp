@@ -23,7 +23,13 @@ i32 main(i32 argc, char* argv[]) {
                 displayCredits();
                 printHelp();
                 return 0;
-            } else if (ip.optionExists("-d") || ip.optionExists("-debug")) {
+            } else if (
+                #ifdef _DEBUG
+                true
+                #else
+                ip.optionExists("-d") || ip.optionExists("-debug")
+                #endif
+            ) {
                 debug = true;
                 std::ofstream file{"debug.txt", std::ios::trunc};
                 if (!file)
