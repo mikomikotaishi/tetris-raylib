@@ -1,4 +1,4 @@
-#include "tetromino.hpp"
+#include "../../include/piece/tetromino.hpp"
 
 const std::array<std::array<Position, NUM_TETROMINO_BLOCKS>, NUM_ROTATION_STATES> ROTATION_STATES_I = {{
     {Position(1, 0), Position(1, 1), Position(1, 2), Position(1, 3)},

@@ -2,10 +2,10 @@
 
 #include <random>
 
-#include "assets.hpp"
-#include "colours.hpp"
-#include "grid.hpp"
-#include "tetromino.hpp"
+#include "../grid/grid.hpp"
+#include "../piece/tetromino.hpp"
+#include "../utility/assets.hpp"
+#include "../utility/colours.hpp"
 
 extern bool debug;
 

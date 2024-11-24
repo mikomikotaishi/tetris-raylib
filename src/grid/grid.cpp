@@ -1,4 +1,4 @@
-#include "grid.hpp"
+#include "../../include/grid/grid.hpp"
 
 Grid::Grid():  
     grid{} 

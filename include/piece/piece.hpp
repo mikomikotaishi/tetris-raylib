@@ -1,7 +1,7 @@
 #pragma once
 
 #include "position.hpp"
-#include "utility.hpp"
+#include "../utility/utility.hpp"
 
 class Piece {
   private:

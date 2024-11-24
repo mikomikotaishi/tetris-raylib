@@ -1,4 +1,4 @@
-#include "utility.hpp"
+#include "../../include/utility/utility.hpp"
 
 void displayCredits() {
     std::cout << "Created by me :)" << std::endl;

@@ -1,10 +1,10 @@
 #include <filesystem>
 #include <fstream>
-#include <raylib-cpp.hpp>
+#include "../raylib-cpp/raylib-cpp.hpp"
 
-#include "inputparser.hpp"
-#include "game.hpp"
-#include "utility.hpp"
+#include "../include/game/game.hpp"
+#include "../include/utility/inputparser.hpp"
+#include "../include/utility/utility.hpp"
 
 Debug debugLogger;
 

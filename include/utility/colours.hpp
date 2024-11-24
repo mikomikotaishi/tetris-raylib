@@ -1,7 +1,7 @@
 #pragma once
 
 #include <array>
-#include <raylib-cpp.hpp>
+#include "../raylib-cpp/raylib-cpp.hpp"
 
 #include "stdint.hpp"
 #include "utility.hpp"

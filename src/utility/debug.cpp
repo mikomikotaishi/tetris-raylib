@@ -1,4 +1,4 @@
-#include "debug.hpp"
+#include "../../include/utility/debug.hpp"
 
 // Big Five
 Debug::Debug():

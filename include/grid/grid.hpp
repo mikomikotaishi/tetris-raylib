@@ -3,7 +3,7 @@
 #include <array>
 #include <iostream>
 
-#include "utility.hpp"
+#include "../utility/utility.hpp"
 
 extern bool debug;
 

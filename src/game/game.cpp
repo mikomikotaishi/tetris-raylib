@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "../../include/game/game.hpp"
 
 bool eventTriggered(f64 interval, f64& lastUpdateTime, const raylib::Window& window) {
     #ifdef DEBUG

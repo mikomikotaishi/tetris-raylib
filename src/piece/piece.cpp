@@ -1,4 +1,4 @@
-#include "piece.hpp"
+#include "../../include/piece/piece.hpp"
 
 Piece::Piece(u8 id, const std::array<std::array<Position, NUM_TETROMINO_BLOCKS>, NUM_ROTATION_STATES>& cells):
     id{id}, rotationState{0}, cells{cells}, rowOffset{0}, columnOffset{0} {
@@ -23,6 +23,10 @@ void Piece::drawPiece(i32 offsetX, i32 offsetY) const {
         #endif
     }
 }
+
+// void Piece::drawPieceSmall() const {
+     
+// }
 
 void Piece::movePiece(i8 rows, i8 columns) {
     #ifdef _DEBUG

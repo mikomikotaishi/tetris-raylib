@@ -1,4 +1,4 @@
-#include "colours.hpp"
+#include "../../include/utility/colours.hpp"
 
 // Background colour
 const raylib::Color DARK_BLUE = raylib::Color(44, 44, 127, 255);

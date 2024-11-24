@@ -1,4 +1,4 @@
-#include "position.hpp"
+#include "../../include/piece/piece.hpp"
 
 Position::Position(): 
     row{0}, column{0}
