@@ -9,14 +9,18 @@
 
 extern bool debug;
 
+namespace Utility {
+    bool eventTriggered(f64 interval, f64& lastUpdateTime, const raylib::Window& window);
+}
+
 enum class InputKeys {
     Left, Right, Down, Slam, Clockwise, Counterclockwise, Hold, Pause, Null
 };
 
-const raylib::Rectangle SCORE_RECTANGLE = raylib::Rectangle(320, 55, 170, 60);
-const raylib::Rectangle NEXT_RECTANGLE = raylib::Rectangle(320, 215, 170, 180);
-
-bool eventTriggered(f64 interval, f64& lastUpdateTime, const raylib::Window& window);
+namespace GameRectangles {
+    const raylib::Rectangle SCORE_RECTANGLE = raylib::Rectangle(320, 55, 170, 60);
+    const raylib::Rectangle NEXT_RECTANGLE = raylib::Rectangle(320, 215, 170, 180);
+}
 
 class Game {
   private:

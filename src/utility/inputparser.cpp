@@ -29,7 +29,7 @@ InputParser::InputParser(i32 argc, char* argv[], const std::vector<std::string>&
                 foundValue = true;
                 continue;
             }
-            throw std::invalid_argument("Invalid option: " + arg);
+            throw std::invalid_argument(std::format("Invalid option: {}", arg));
         }
     }
 }

@@ -44,6 +44,7 @@ compile_commands.json
 
 # Program specific
 bin/
+build/
 /tetris
 /tetris.exe
 debug.txt

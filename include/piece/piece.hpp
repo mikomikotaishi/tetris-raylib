@@ -7,12 +7,12 @@ class Piece {
   private:
     u8 id;
     i8 rotationState;
-    std::array<std::array<Position, NUM_TETROMINO_BLOCKS>, NUM_ROTATION_STATES> cells;
+    std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> cells;
     i8 rowOffset;
     i8 columnOffset;
   protected:
     // Constructor
-    Piece(u8 id, const std::array<std::array<Position, NUM_TETROMINO_BLOCKS>, NUM_ROTATION_STATES>& cells);
+    Piece(u8 id, const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES>& cells);
   public:
     // Methods
     u8 getID() const;
@@ -20,5 +20,5 @@ class Piece {
     void movePiece(i8 rows, i8 columns);
     void rotatePieceClockwise();
     void rotatePieceCounterclockwise();
-    std::array<Position, NUM_TETROMINO_BLOCKS> getCellPositions() const;
+    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> getCellPositions() const;
 };

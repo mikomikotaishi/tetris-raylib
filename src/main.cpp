@@ -1,5 +1,7 @@
 #include <filesystem>
+#include <format>
 #include <fstream>
+#include <print>
 #include "../raylib-cpp/raylib-cpp.hpp"
 
 #include "../include/game/game.hpp"
@@ -16,12 +18,12 @@ i32 main(i32 argc, char* argv[]) {
     std::string input;
     try {
         if (argc > 2)
-            throw std::invalid_argument("Too many arguments. Argument count: " + argc);
+            throw std::invalid_argument(std::format("Too many arguments. Argument count: {}", argc));
         else {
             InputParser ip(argc, argv, validOptions);
             if (ip.optionExists("-h") || ip.optionExists("-help")) {
-                displayCredits();
-                printHelp();
+                Utility::displayCredits();
+                Utility::printHelp();
                 return 0;
             } else if (
                 #ifdef DEBUG
@@ -33,30 +35,30 @@ i32 main(i32 argc, char* argv[]) {
                 debug = true;
                 std::ofstream file{"debug.txt", std::ios::trunc};
                 if (!file)
-                    std::cerr << "Error opening file for emptying." << std::endl;
+                    std::println(stderr, "Error opening file for emptying.");
                 else {
-                    file << "==========BEGIN DEBUG LOG==========" << std::endl;
-                    file << "Current time: " << getCurrentTime() << std::endl;
-                    file << "===================================" << std::endl;
+                    std::println(file, "==========BEGIN DEBUG LOG==========");
+                    std::println(file, "Current time: {}", Utility::getCurrentTime());
+                    std::println(file, "===================================");
                 }
             }
         }
         f64 lastUpdateTime;
-        raylib::Window window{WINDOW_WIDTH, WINDOW_HEIGHT, "Tetris"};
-        window.SetIcon(GAME_ICON);
+        raylib::Window window{GameInfo::WINDOW_WIDTH, GameInfo::WINDOW_HEIGHT, "Tetris"};
+        window.SetIcon(Assets::GAME_ICON);
         const raylib::Font GAME_FONT = raylib::LoadFontEx("assets/font/vt323.ttf", 64, nullptr, 0);
         window.SetTargetFPS(60);
         Game g;
         while (!window.ShouldClose()) {
             UpdateMusicStream(g.music);
-            if (eventTriggered(0.2, lastUpdateTime, window))
+            if (Utility::eventTriggered(0.2, lastUpdateTime, window))
                 g.movePieceDown();
             g.handleInput();
             window.BeginDrawing();
             if (debug)
                 window.ClearBackground(BLUE);
             else
-                window.ClearBackground(DARK_BLUE);
+                window.ClearBackground(Colours::DARK_BLUE);
             g.drawScoreWord(GAME_FONT);
             g.drawScore(GAME_FONT);
             g.drawNext(GAME_FONT);
@@ -66,25 +68,25 @@ i32 main(i32 argc, char* argv[]) {
             window.EndDrawing();
         }
     } catch (const std::invalid_argument& e) {
-        std::cerr << "Invalid argument error: " << e.what() << std::endl;
+        std::println(stderr, "Invalid argument error: {}", e.what());
         return 1;
     } catch (const raylib::RaylibException& e) {
-        std::cerr << "Graphics error: " << e.what() << std::endl;
+        std::println(stderr, "Graphics error: {}", e.what());
         return 2;
     } catch (const std::overflow_error& e) {
-        std::cerr << "Overflow error: " << e.what() << std::endl;
+        std::println(stderr, "Overflow error: {}", e.what());
         return 3;
     } catch (const std::runtime_error& e) {
-        std::cerr << "Runtime error: " << e.what() << std::endl;
+        std::println(stderr, "Runtime error: {}", e.what());
         return 4;
     } catch (const std::out_of_range& e) {
-        std::cerr << "Range error: " << e.what() << std::endl;
+        std::println(stderr, "Range error: {}", e.what());
         return 5;
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::println(stderr, "Error: {}", e.what());
         return 6;
     } catch (...) {
-        std::cerr << "Unknown error" << std::endl;
+        std::println(stderr, "Unknown error");
         return -1;
     }
     return 0;

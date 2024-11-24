@@ -9,7 +9,7 @@ SOURCES = $(wildcard $(addsuffix /*.cpp,$(DIRECTORIES))) $(wildcard *.cpp)  # Li
 # LDFLAGS = -fsanitize=address -lraylib -lm -lpthread -ldl -lrt -lX11 # Linking flags
 
 # Debug flags
-CXXFLAGS = -DDEBUG -fsanitize=address -I/usr/include -Wall -g -MMD -O2 -Werror=vla -Werror=vla ${INC} # Compilation flags
+CXXFLAGS = -std=c++23 -DDEBUG -fsanitize=address -I/usr/include -Wall -g -MMD -O2 -Werror=vla -Werror=vla ${INC} # Compilation flags
 LDFLAGS = -fsanitize=address -lraylib -lm -lpthread -ldl -lrt -lX11 # Linking flags
 
 BUILD_DIR = bin
@@ -78,7 +78,7 @@ $(shell mkdir -p $(BUILD_DIR)/src)
 ${EXEC}: ${OBJECTS}
 	@echo -e "\n$(GREEN)Linking$(RESET) executable..."
 	@${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} $(LDFLAGS)
-	@echo -e "\n $(GREEN)Build complete:$(RESET) ${EXEC} $(BOLD)[Total time: $(call format_time,$(call calc_elapsed))]$(RESET)"
+	@echo -e "\n$(GREEN)Build complete:$(RESET) ${EXEC} $(BOLD)[Total time: $(call format_time,$(call calc_elapsed))]$(RESET)"
 
 # Rule to build object files from source
 $(BUILD_DIR)/%.o: %.cpp

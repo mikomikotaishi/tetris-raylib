@@ -3,4 +3,6 @@
 #include "../raylib-cpp/raylib-cpp.hpp"
 
 // Icon
-extern const raylib::Image GAME_ICON;
+namespace Assets {
+    extern const raylib::Image GAME_ICON;
+}

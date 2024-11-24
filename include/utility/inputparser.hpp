@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <cassert>
+#include <format>
 #include <string>
 #include <stdexcept>
 #include <vector>

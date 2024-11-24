@@ -1,11 +1,11 @@
 #pragma once
 
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <memory>
+#include <print>
 
-class Debug {
+class Debug: public std::ostream {
   private:
     std::unique_ptr<std::ofstream> debugFile;
   public:

@@ -5,7 +5,7 @@ Grid::Grid():
     {}
 
 void Grid::reinitialiseGrid() {
-    for (usize i = 0; i < NUM_ROWS; ++i) for (usize j = 0; j < NUM_COLS; ++j) {
+    for (usize i = 0; i < GameInfo::NUM_ROWS; ++i) for (usize j = 0; j < GameInfo::NUM_COLS; ++j) {
         #ifdef DEBUG
         grid.at(i).at(j) = 0;
         #else
@@ -15,15 +15,15 @@ void Grid::reinitialiseGrid() {
 }
 
 void Grid::drawGrid() const {
-    for (usize i = 0; i < NUM_ROWS; ++i) for (usize j = 0; j < NUM_COLS; ++j) {
+    for (usize i = 0; i < GameInfo::NUM_ROWS; ++i) for (usize j = 0; j < GameInfo::NUM_COLS; ++j) {
         #ifdef DEBUG
         i32 cellValue = grid.at(i).at(j);
-        raylib::Rectangle cell = raylib::Rectangle(j * CELL_SIZE + GRID_OFFSET + 1, i * CELL_SIZE + GRID_OFFSET + 1, CELL_SIZE - 1, CELL_SIZE - 1);
-        cell.Draw(COLOUR_LIST.at(cellValue));
+        raylib::Rectangle cell = raylib::Rectangle(j * GameInfo::CELL_SIZE + GameInfo::GRID_OFFSET + 1, i * GameInfo::CELL_SIZE + GameInfo::GRID_OFFSET + 1, GameInfo::CELL_SIZE - 1, GameInfo::CELL_SIZE - 1);
+        cell.Draw(Colours::COLOUR_LIST.at(cellValue));
         #else
         i32 cellValue = grid[i][j];
-        raylib::Rectangle cell = raylib::Rectangle(j * CELL_SIZE + GRID_OFFSET + 1, i * CELL_SIZE + GRID_OFFSET + 1, CELL_SIZE - 1, CELL_SIZE - 1);
-        cell.Draw(COLOUR_LIST[cellValue]);
+        raylib::Rectangle cell = raylib::Rectangle(j * GameInfo::CELL_SIZE + GameInfo::GRID_OFFSET + 1, i * GameInfo::CELL_SIZE + GameInfo::GRID_OFFSET + 1, GameInfo::CELL_SIZE - 1, GameInfo::CELL_SIZE - 1);
+        cell.Draw(Colours::COLOUR_LIST[cellValue]);
         #endif
     }
 }
@@ -39,14 +39,14 @@ bool Grid::isCellEmpty(u8 row, u8 column) const {
 }
 
 bool Grid::isCellOutside(u8 row, u8 column) const {
-    return !((row >= 0) && (row < NUM_ROWS) && (column >= 0) && (column < NUM_COLS));
+    return !((row >= 0) && (row < GameInfo::NUM_ROWS) && (column >= 0) && (column < GameInfo::NUM_COLS));
 }
 
 bool Grid::isRowFull(u8 row) const {
     #ifdef DEBUG
     assert(row < 20);
     #endif
-    for (usize column = 0; column < NUM_COLS; ++column) {
+    for (usize column = 0; column < GameInfo::NUM_COLS; ++column) {
         #ifdef DEBUG
         if (grid.at(row).at(column) == 0)
             return false;
@@ -62,7 +62,7 @@ void Grid::clearRow(u8 row) {
     #ifdef DEBUG
     assert(row < 20);
     #endif
-    for (usize column = 0; column < NUM_COLS; ++column) {
+    for (usize column = 0; column < GameInfo::NUM_COLS; ++column) {
         #ifdef DEBUG
         grid.at(row).at(column) = 0;
         #else
@@ -76,7 +76,7 @@ void Grid::shiftRowDown(u8 row, u8 shift) {
     assert(row < 20);
     assert(row + shift < 20);
     #endif
-    for (usize column = 0; column < NUM_COLS; ++column) {
+    for (usize column = 0; column < GameInfo::NUM_COLS; ++column) {
         #ifdef DEBUG
         grid.at(row + shift).at(column) = grid.at(row).at(column);
         grid.at(row).at(column) = 0;
@@ -89,31 +89,31 @@ void Grid::shiftRowDown(u8 row, u8 shift) {
 
 u8 Grid::clearFullRows() {
     u8 completedRows = 0;
-    for (i32 i = NUM_ROWS - 1; i >= 0; --i) { 
+    for (i32 i = GameInfo::NUM_ROWS - 1; i >= 0; --i) { 
         if (isRowFull(i)) {
             if (debug)
-                debugLogger << "Clearing row " << i << ".\n";
+                std::println(debugLogger, "Clearing row {}.", i);
             clearRow(i);
             ++completedRows;
         } else if (completedRows > 0)
             shiftRowDown(i, completedRows);
     }
     if (debug)
-        debugLogger << static_cast<i32>(completedRows) << " lines cleared.\n";
+        std::println(debugLogger, "{} lines cleared.", static_cast<i32>(completedRows));
     return completedRows;
 }
 
 // Debug method
 void Grid::printGrid() const {
-    for (usize i = 0; i < NUM_ROWS; ++i) {
-        for (usize j = 0; j < NUM_COLS; ++j) {
+    for (usize i = 0; i < GameInfo::NUM_ROWS; ++i) {
+        for (usize j = 0; j < GameInfo::NUM_COLS; ++j) {
             #ifdef DEBUG
-            std::cout << grid.at(i).at(j) << " ";
+            std::print("{} ", grid.at(i).at(j));
             #else
-            std::cout << grid[i][j] << " ";
+            std::print("{} ", grid[i][j]);
             #endif
         }
-        std::cout << std::endl;
+        std::print("\n");
     }
 }
 

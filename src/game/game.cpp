@@ -1,16 +1,18 @@
 #include "../../include/game/game.hpp"
 
-bool eventTriggered(f64 interval, f64& lastUpdateTime, const raylib::Window& window) {
-    #ifdef DEBUG
-    assert(interval >= 0);
-    assert(lastUpdateTime >= 0);
-    #endif
-    f64 currentTime = window.GetTime();
-    if (currentTime - lastUpdateTime >= interval) {
-        lastUpdateTime = currentTime;
-        return true;
+namespace Utility {
+    bool eventTriggered(f64 interval, f64& lastUpdateTime, const raylib::Window& window) {
+        #ifdef DEBUG
+        assert(interval >= 0);
+        assert(lastUpdateTime >= 0);
+        #endif
+        f64 currentTime = window.GetTime();
+        if (currentTime - lastUpdateTime >= interval) {
+            lastUpdateTime = currentTime;
+            return true;
+        }
+        return false;
     }
-    return false;
 }
 
 Game::Game():
@@ -20,7 +22,7 @@ Game::Game():
     rotateSound{LoadSound("assets/sounds/rotate.mp3")},
     music{LoadMusicStream("assets/sounds/music.mp3")} {
     if (debug)
-        debugLogger << "Constructing game." << "\n";
+        std::println(debugLogger, "Constructing game.");
     InitAudioDevice();
     PlayMusicStream(music);
 }
@@ -42,7 +44,7 @@ void Game::setGameOverState(bool state) {
 
 void Game::resetGame() {
     if (debug)
-        debugLogger << "Game resetting.\n";
+        std::println(debugLogger, "Game resetting.");
     g.reinitialiseGrid();
     pieces = getAllPieces();
     currentPiece = getRandomPiece();
@@ -51,7 +53,7 @@ void Game::resetGame() {
 }
 
 bool Game::isPieceOutside() const {
-    std::array<Position, NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
+    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
     for (const Position& tile: tiles) 
         if (g.isCellOutside(tile.getRow(), tile.getColumn()))
             return true;
@@ -64,7 +66,7 @@ Piece Game::getRandomPiece() {
     std::uniform_int_distribution<> dis(0, pieces.size() - 1);
     usize randomIndex = dis(gen);
     if (debug)
-        debugLogger << "Index generated: " << randomIndex << ", of pieces size: " << pieces.size() << "\n";
+        std::println(debugLogger, "Index generated: {}, of pieces size: ", pieces.size());
     #ifdef DEBUG
     Piece p = pieces.at(randomIndex);
     #else
@@ -84,12 +86,12 @@ std::vector<Piece> Game::getAllPieces() const {
 
 void Game::drawGame() const {
     g.drawGrid();
-    currentPiece.drawPiece(GRID_OFFSET + 1, GRID_OFFSET + 1);
+    currentPiece.drawPiece(GameInfo::GRID_OFFSET + 1, GameInfo::GRID_OFFSET + 1);
     switch (nextPiece.getID()) {
-        case ID_L_PIECE:
+        case PieceID::ID_L_PIECE:
             nextPiece.drawPiece(255, 290);
             break;
-        case ID_O_PIECE:
+        case PieceID::ID_O_PIECE:
             nextPiece.drawPiece(255, 280);
             break;
         default:
@@ -99,7 +101,7 @@ void Game::drawGame() const {
 
 void Game::drawScoreWord(const raylib::Font& font) const {
     raylib::DrawTextEx(font, const_cast<char*>("Score"), {365, 15}, 38, 2, WHITE);
-    SCORE_RECTANGLE.DrawRounded(0.3, 6, ROYAL_BLUE);
+    GameRectangles::SCORE_RECTANGLE.DrawRounded(0.3, 6, Colours::ROYAL_BLUE);
 }
 
 void Game::drawScore(const raylib::Font& font) const {
@@ -111,7 +113,7 @@ void Game::drawScore(const raylib::Font& font) const {
 
 void Game::drawNext(const raylib::Font& font) const {
     raylib::DrawTextEx(font, const_cast<char*>("Next"), {370, 175}, 38, 2, WHITE);
-    NEXT_RECTANGLE.DrawRounded(0.3, 6, ROYAL_BLUE);
+    GameRectangles::NEXT_RECTANGLE.DrawRounded(0.3, 6, Colours::ROYAL_BLUE);
 }
 
 void Game::displayGameOver(const raylib::Font& font) const {
@@ -121,11 +123,11 @@ void Game::displayGameOver(const raylib::Font& font) const {
 void Game::movePieceLeft() {
     if (!getGameOverState()) {
         if (debug)
-            debugLogger << "Attempting to move piece left.\n";
+            std::println(debugLogger, "Attempting to move piece left.");
         currentPiece.movePiece(0, -1);
         if (isPieceOutside() || !pieceFits()) {
             if (debug)
-                debugLogger << "FAILED to move piece left!\n";
+                std::println(debugLogger, "FAILED to move piece left!");
             currentPiece.movePiece(0, 1);
         }
     }
@@ -134,11 +136,11 @@ void Game::movePieceLeft() {
 void Game::movePieceRight() {
     if (!getGameOverState()) {
         if (debug)
-            debugLogger << "Attempting to move piece right.\n";
+            std::println(debugLogger, "Attempting to move piece right.");
         currentPiece.movePiece(0, 1);
         if (isPieceOutside() || !pieceFits()) {
             if (debug)
-                debugLogger << "FAILED to move piece right!\n";
+                std::println(debugLogger, "FAILED to move piece right!");
             currentPiece.movePiece(0, -1);
         }
     }
@@ -146,14 +148,14 @@ void Game::movePieceRight() {
 
 void Game::lockPiece() {
     if (debug)
-        debugLogger << "Locking piece.\n";
-    std::array<Position, NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
+        std::println(debugLogger, "Locking piece.");
+    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
     for (const Position& tile: tiles)
         g.setCell(tile.getRow(), tile.getColumn(), currentPiece.getID());
     currentPiece = nextPiece;
     if (!pieceFits()) {
         if (debug)
-            debugLogger << "Game over!\nEnding game.\n";
+            std::println(debugLogger, "Game over!\nEnding game.");
         setGameOverState(true);
     }
     nextPiece = getRandomPiece();
@@ -165,7 +167,7 @@ void Game::lockPiece() {
 }
 
 bool Game::pieceFits() const {
-    std::array<Position, NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
+    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
     for (const Position& tile: tiles)
         if (!g.isCellEmpty(tile.getRow(), tile.getColumn()))
             return false;
@@ -185,7 +187,7 @@ void Game::movePieceDown() {
 void Game::slamPiece() {
     if (!getGameOverState()) {
         if (debug)
-            debugLogger << "Attempting to slam piece.\n";
+            std::println(debugLogger, "Attempting to slam piece.");
         while (true) {
             currentPiece.movePiece(1, 0);
             if (isPieceOutside() || !pieceFits()) {
@@ -200,11 +202,11 @@ void Game::slamPiece() {
 void Game::rotatePieceClockwise() {
     if (!getGameOverState()) {
         if (debug)
-            debugLogger << "Attempting to rotate piece clockwise.\n";
+            std::println(debugLogger, "Attempting to rotate piece clockwise.");
         currentPiece.rotatePieceClockwise();
         if (isPieceOutside() || !pieceFits()) {
             if (debug)
-                debugLogger << "FAILED to rotate piece clockwise!\n";
+                std::println(debugLogger, "FAILED to rotate piece clockwise!");
             currentPiece.rotatePieceCounterclockwise();
         } else 
             PlaySound(rotateSound);
@@ -214,11 +216,11 @@ void Game::rotatePieceClockwise() {
 void Game::rotatePieceCounterclockwise() {
     if (!getGameOverState()) {
         if (debug)
-            debugLogger << "Attempting to rotate piece counterclockwise.\n";
+            std::println(debugLogger, "Attempting to rotate piece counterclockwise.");
         currentPiece.rotatePieceCounterclockwise();
         if (isPieceOutside() || !pieceFits()) {
             if (debug)
-                debugLogger << "FAILED to rotate piece counterclockwise!\n";
+                std::println(debugLogger, "FAILED to rotate piece counterclockwise!");
             currentPiece.rotatePieceClockwise();
         } else 
             PlaySound(rotateSound);
@@ -256,14 +258,14 @@ void Game::handleInput() {
         resetGame();
     }
     InputKeys key;
-    if (keyPressed == KEY_LEFT || keyPressed == KEY_KP_4) key = InputKeys::Left;
-    else if (keyPressed == KEY_RIGHT || keyPressed == KEY_KP_6) key = InputKeys::Right;
-    else if (keyPressed == KEY_DOWN || keyPressed == KEY_KP_2) key = InputKeys::Down;
-    else if (keyPressed == KEY_SPACE || keyPressed == KEY_KP_8) key = InputKeys::Slam;
-    else if (keyPressed == KEY_UP || keyPressed == KEY_X || keyPressed == KEY_KP_1 || keyPressed == KEY_KP_5 || keyPressed == KEY_KP_9) key = InputKeys::Clockwise;
-    else if (keyPressed == KEY_LEFT_CONTROL || keyPressed == KEY_Z || keyPressed == KEY_KP_3 || keyPressed == KEY_KP_7) key = InputKeys::Counterclockwise;
-    else if (keyPressed == KEY_LEFT_SHIFT || keyPressed == KEY_C || keyPressed == KEY_KP_0) key = InputKeys::Hold;
-    else if (keyPressed == KEY_ESCAPE || keyPressed == KEY_F1) key = InputKeys::Pause;
+    if (keyPressed == KeyboardKey::KEY_LEFT || keyPressed == KeyboardKey::KEY_KP_4) key = InputKeys::Left;
+    else if (keyPressed == KeyboardKey::KEY_RIGHT || keyPressed == KeyboardKey::KEY_KP_6) key = InputKeys::Right;
+    else if (keyPressed == KeyboardKey::KEY_DOWN || keyPressed == KeyboardKey::KEY_KP_2) key = InputKeys::Down;
+    else if (keyPressed == KeyboardKey::KEY_SPACE || keyPressed == KeyboardKey::KEY_KP_8) key = InputKeys::Slam;
+    else if (keyPressed == KeyboardKey::KEY_UP || keyPressed == KeyboardKey::KEY_X || keyPressed == KeyboardKey::KEY_KP_1 || keyPressed == KeyboardKey::KEY_KP_5 || keyPressed == KeyboardKey::KEY_KP_9) key = InputKeys::Clockwise;
+    else if (keyPressed == KeyboardKey::KEY_LEFT_CONTROL || keyPressed == KeyboardKey::KEY_Z || keyPressed == KeyboardKey::KEY_KP_3 || keyPressed == KeyboardKey::KEY_KP_7) key = InputKeys::Counterclockwise;
+    else if (keyPressed == KeyboardKey::KEY_LEFT_SHIFT || keyPressed == KeyboardKey::KEY_C || keyPressed == KeyboardKey::KEY_KP_0) key = InputKeys::Hold;
+    else if (keyPressed == KeyboardKey::KEY_ESCAPE || keyPressed == KeyboardKey::KEY_F1) key = InputKeys::Pause;
     else key = InputKeys::Null;
     switch (key) {
         case InputKeys::Left:
