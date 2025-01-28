@@ -1,4 +1,3 @@
-#include <filesystem>
 #include <format>
 #include <fstream>
 #include <print>
@@ -14,7 +13,7 @@ Debug debugLogger;
 bool debug = false;
 
 i32 main(i32 argc, char* argv[]) {
-    std::vector<String> validOptions = {"-h", "-help", "-d", "-debug"};
+    Vector<String> validOptions = {"-h", "-help", "-d", "-debug"};
     String input;
     try {
         if (argc > 2)
