@@ -1,5 +1,6 @@
 #pragma once
 
+#include <print>
 #include <random>
 
 #include "../grid/grid.hpp"
@@ -13,20 +14,16 @@ namespace Utility {
     bool eventTriggered(f64 interval, f64& lastUpdateTime, const raylib::Window& window);
 }
 
-enum class InputKeys {
-    Left, Right, Down, Slam, Clockwise, Counterclockwise, Hold, Pause, Null
-};
-
 namespace GameRectangles {
     const raylib::Rectangle SCORE_RECTANGLE = raylib::Rectangle(320, 55, 170, 60);
     const raylib::Rectangle NEXT_RECTANGLE = raylib::Rectangle(320, 215, 170, 180);
 }
 
 class Game {
-  private:
+private:
     Grid g;
     bool gameOver = false;
-    std::vector<Piece> pieces;
+    Vector<Piece> pieces;
     std::mt19937 gen;
     u16 level = 1;
     i32 score = 0;
@@ -45,7 +42,7 @@ class Game {
     void rotatePieceClockwise();
     void rotatePieceCounterclockwise();
     void updateScore(u8 linesCleared, u8 movedDown);
-  public:
+public:
     raylib::Music music;
     // Constructor
     Game();
@@ -56,7 +53,7 @@ class Game {
     void setGameOverState(bool state);
     Piece getRandomPiece();
     u16 getLevel() const;
-    std::vector<Piece> getAllPieces() const;
+    Vector<Piece> getAllPieces() const;
     void drawGame() const;
     void drawScoreWord(const raylib::Font& font) const;
     void drawScore(const raylib::Font& font) const;

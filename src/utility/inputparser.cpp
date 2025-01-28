@@ -1,6 +1,6 @@
 #include "../../include/utility/inputparser.hpp"
 
-bool isInteger(const std::string& s) {
+bool isInteger(const String& s) {
     try {
         std::stoi(s);
         return true;
@@ -12,10 +12,10 @@ bool isInteger(const std::string& s) {
 // Constructor
 InputParser::InputParser(i32 argc, char* argv[]) {
     for (i32 i = 1; i < argc; ++i) 
-        args.push_back(std::string(argv[i]));
+        args.push_back(String(argv[i]));
 }
 
-InputParser::InputParser(i32 argc, char* argv[], const std::vector<std::string>& validOptions): 
+InputParser::InputParser(i32 argc, char* argv[], const Vector<String>& validOptions): 
     validOptions(validOptions) {
     #ifdef DEBUG
     assert(argc >= 1);
@@ -35,13 +35,13 @@ InputParser::InputParser(i32 argc, char* argv[], const std::vector<std::string>&
 }
 
 // Methods
-std::string InputParser::getOptionValue(const std::string& option) const {
-    std::vector<std::string>::const_iterator it = std::find(args.begin(), args.end(), option);
+std::string InputParser::getOptionValue(const String& option) const {
+    Vector<String>::const_iterator it = std::find(args.begin(), args.end(), option);
     if (it != args.end() && ++it != args.end()) 
         return *it;
     return "";
 }
 
-bool InputParser::optionExists(const std::string& option) const {
+bool InputParser::optionExists(const String& option) const {
     return std::find(args.begin(), args.end(), option) != args.end();
 }

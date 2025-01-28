@@ -53,7 +53,7 @@ void Game::resetGame() {
 }
 
 bool Game::isPieceOutside() const {
-    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
+    Array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
     for (const Position& tile: tiles) 
         if (g.isCellOutside(tile.getRow(), tile.getColumn()))
             return true;
@@ -149,7 +149,7 @@ void Game::movePieceRight() {
 void Game::lockPiece() {
     if (debug)
         std::println(debugLogger, "Locking piece.");
-    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
+    Array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
     for (const Position& tile: tiles)
         g.setCell(tile.getRow(), tile.getColumn(), currentPiece.getID());
     currentPiece = nextPiece;
@@ -167,7 +167,7 @@ void Game::lockPiece() {
 }
 
 bool Game::pieceFits() const {
-    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
+    Array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = currentPiece.getCellPositions();
     for (const Position& tile: tiles)
         if (!g.isCellEmpty(tile.getRow(), tile.getColumn()))
             return false;
@@ -257,41 +257,54 @@ void Game::handleInput() {
         setGameOverState(false);
         resetGame();
     }
-    InputKeys key;
-    if (keyPressed == KeyboardKey::KEY_LEFT || keyPressed == KeyboardKey::KEY_KP_4) key = InputKeys::Left;
-    else if (keyPressed == KeyboardKey::KEY_RIGHT || keyPressed == KeyboardKey::KEY_KP_6) key = InputKeys::Right;
-    else if (keyPressed == KeyboardKey::KEY_DOWN || keyPressed == KeyboardKey::KEY_KP_2) key = InputKeys::Down;
-    else if (keyPressed == KeyboardKey::KEY_SPACE || keyPressed == KeyboardKey::KEY_KP_8) key = InputKeys::Slam;
-    else if (keyPressed == KeyboardKey::KEY_UP || keyPressed == KeyboardKey::KEY_X || keyPressed == KeyboardKey::KEY_KP_1 || keyPressed == KeyboardKey::KEY_KP_5 || keyPressed == KeyboardKey::KEY_KP_9) key = InputKeys::Clockwise;
-    else if (keyPressed == KeyboardKey::KEY_LEFT_CONTROL || keyPressed == KeyboardKey::KEY_Z || keyPressed == KeyboardKey::KEY_KP_3 || keyPressed == KeyboardKey::KEY_KP_7) key = InputKeys::Counterclockwise;
-    else if (keyPressed == KeyboardKey::KEY_LEFT_SHIFT || keyPressed == KeyboardKey::KEY_C || keyPressed == KeyboardKey::KEY_KP_0) key = InputKeys::Hold;
-    else if (keyPressed == KeyboardKey::KEY_ESCAPE || keyPressed == KeyboardKey::KEY_F1) key = InputKeys::Pause;
-    else key = InputKeys::Null;
-    switch (key) {
-        case InputKeys::Left:
+    switch (keyPressed) {
+        // Left
+        case KeyboardKey::KEY_LEFT:
+        case KeyboardKey::KEY_KP_4:
             movePieceLeft();
             break;
-        case InputKeys::Right:
+        // Right
+        case KeyboardKey::KEY_RIGHT:
+        case KeyboardKey::KEY_KP_6:
             movePieceRight();
             break;
-        case InputKeys::Down:
+        // Down
+        case KeyboardKey::KEY_DOWN:
+        case KeyboardKey::KEY_KP_2:
             movePieceDown();
             updateScore(0, 1);
             break;
-        case InputKeys::Slam:
+        // Slam
+        case KeyboardKey::KEY_SPACE:
+        case KeyboardKey::KEY_KP_8:
             slamPiece();
             updateScore(0, 20);
             break;
-        case InputKeys::Clockwise:
+        // Clockwise
+        case KeyboardKey::KEY_UP:
+        case KeyboardKey::KEY_X:
+        case KeyboardKey::KEY_KP_1:
+        case KeyboardKey::KEY_KP_5:
+        case KeyboardKey::KEY_KP_9:
             rotatePieceClockwise();
             break;
-        case InputKeys::Counterclockwise:
+        // Counterclockwise
+        case KeyboardKey::KEY_LEFT_CONTROL:
+        case KeyboardKey::KEY_Z:
+        case KeyboardKey::KEY_KP_3:
+        case KeyboardKey::KEY_KP_7:
             rotatePieceCounterclockwise();
             break;
-        case InputKeys::Hold:
+        // Hold
+        case KeyboardKey::KEY_LEFT_SHIFT:
+        case KeyboardKey::KEY_C:
+        case KeyboardKey::KEY_KP_0:
             break;
-        case InputKeys::Pause:
+        // Pause
+        case KeyboardKey::KEY_ESCAPE:
+        case KeyboardKey::KEY_F1:
             break;
+        // Null
         default:
             break;
     }

@@ -4,21 +4,21 @@
 #include "../utility/utility.hpp"
 
 class Piece {
-  private:
+private:
     u8 id;
     i8 rotationState;
-    std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> cells;
+    Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> cells;
     i8 rowOffset;
     i8 columnOffset;
-  protected:
+protected:
     // Constructor
-    Piece(u8 id, const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES>& cells);
-  public:
+    Piece(u8 id, const Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES>& cells);
+public:
     // Methods
     u8 getID() const;
     void drawPiece(i32 offsetX, i32 offsetY) const;
     void movePiece(i8 rows, i8 columns);
     void rotatePieceClockwise();
     void rotatePieceCounterclockwise();
-    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> getCellPositions() const;
+    Array<Position, GameInfo::NUM_TETROMINO_BLOCKS> getCellPositions() const;
 };

@@ -14,8 +14,8 @@ Debug debugLogger;
 bool debug = false;
 
 i32 main(i32 argc, char* argv[]) {
-    std::vector<std::string> validOptions = {"-h", "-help", "-d", "-debug"};
-    std::string input;
+    std::vector<String> validOptions = {"-h", "-help", "-d", "-debug"};
+    String input;
     try {
         if (argc > 2)
             throw std::invalid_argument(std::format("Too many arguments. Argument count: {}", argc));

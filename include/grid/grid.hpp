@@ -8,11 +8,11 @@
 extern bool debug;
 
 class Grid {
-  private:
-    std::array<std::array<u8, GameInfo::NUM_COLS>, GameInfo::NUM_ROWS> grid;
+private:
+    Array<Array<u8, GameInfo::NUM_COLS>, GameInfo::NUM_ROWS> grid;
     void clearRow(u8 row);
     void shiftRowDown(u8 row, u8 numRows);
-  public:
+public:
     // Constructor
     Grid();
     // Methods

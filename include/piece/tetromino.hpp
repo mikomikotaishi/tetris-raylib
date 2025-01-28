@@ -13,53 +13,53 @@ namespace PieceID {
 }
 
 namespace RotationStates {
-    extern const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_I;
-    extern const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_J;
-    extern const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_L;
-    extern const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_O;
-    extern const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_S;
-    extern const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_T;
-    extern const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_Z;
+    extern const Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_I;
+    extern const Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_J;
+    extern const Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_L;
+    extern const Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_O;
+    extern const Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_S;
+    extern const Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_T;
+    extern const Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES> ROTATION_STATES_Z;
 }
 
 class IPiece: public Piece {
-  public:
+public:
     // Constructor
     IPiece();
 };
 
 class JPiece: public Piece {
-  public:
+public:
     // Constructor
     JPiece();
 };
 
 class LPiece: public Piece {
-  public:
+public:
     // Constructor
     LPiece();
 };
 
 class OPiece: public Piece {
-  public:
+public:
     // Constructor
     OPiece();
 };
 
 class SPiece: public Piece {
-  public:
+public:
     // Constructor
     SPiece();
 };
 
 class TPiece: public Piece {
-  public:
+public:
     // Constructor
     TPiece();
 };
 
 class ZPiece: public Piece {
-  public:
+public:
     // Constructor
     ZPiece();
 };

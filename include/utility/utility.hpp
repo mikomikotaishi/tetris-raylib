@@ -33,5 +33,5 @@ namespace GameInfo {
 namespace Utility {
     void displayCredits();
     void printHelp();
-    std::string getCurrentTime();
+    String getCurrentTime();
 }

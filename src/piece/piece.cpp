@@ -1,6 +1,6 @@
 #include "../../include/piece/piece.hpp"
 
-Piece::Piece(u8 id, const std::array<std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES>& cells):
+Piece::Piece(u8 id, const Array<Array<Position, GameInfo::NUM_TETROMINO_BLOCKS>, GameInfo::NUM_ROTATION_STATES>& cells):
     id{id}, rotationState{0}, cells{cells}, rowOffset{0}, columnOffset{0} {
     #ifdef DEBUG
     assert(id >= 1);
@@ -13,7 +13,7 @@ u8 Piece::getID() const {
 }
 
 void Piece::drawPiece(i32 offsetX, i32 offsetY) const {
-    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = getCellPositions();
+    Array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = getCellPositions();
     for (const Position& tile: tiles) {
         raylib::Rectangle cell = raylib::Rectangle(tile.getColumn() * GameInfo::CELL_SIZE + offsetX, tile.getRow() * GameInfo::CELL_SIZE + offsetY, GameInfo::CELL_SIZE - 1, GameInfo::CELL_SIZE - 1);
         #ifdef DEBUG
@@ -53,11 +53,11 @@ void Piece::rotatePieceCounterclockwise() {
 
 std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> Piece::getCellPositions() const {
     #ifdef DEBUG
-    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = cells.at(rotationState);
+    Array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = cells.at(rotationState);
     #else
-    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = cells[rotationState];
+    Array<Position, GameInfo::NUM_TETROMINO_BLOCKS> tiles = cells[rotationState];
     #endif
-    std::array<Position, GameInfo::NUM_TETROMINO_BLOCKS> movedTiles;
+    Array<Position, GameInfo::NUM_TETROMINO_BLOCKS> movedTiles;
     for (usize i = 0; i < GameInfo::NUM_TETROMINO_BLOCKS; ++i)  {
         #ifdef DEBUG
         Position newPos = Position(tiles.at(i).getRow() + rowOffset, tiles.at(i).getColumn() + columnOffset);

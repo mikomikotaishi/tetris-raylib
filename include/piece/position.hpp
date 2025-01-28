@@ -3,10 +3,10 @@
 #include "../utility/utility.hpp"
 
 class Position {
-  private:
+private:
     u8 row;
     u8 column;
-  public:
+public:
     // Constructor
     Position();
     Position(u8 row, u8 column);

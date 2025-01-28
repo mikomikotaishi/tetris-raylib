@@ -6,9 +6,9 @@
 #include <print>
 
 class Debug: public std::ostream {
-  private:
+private:
     std::unique_ptr<std::ofstream> debugFile;
-  public:
+public:
     // Big Five
     Debug();
     ~Debug();

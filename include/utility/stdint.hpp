@@ -17,3 +17,29 @@ using f32 = float;
 using f64 = double;
 
 using usize = size_t;
+
+// #ifdef __has_include
+//     #if __has_include(<array>)
+//         #include <array>
+//         template<typename T, usize N>
+//         using Array = std::array<T, N>;
+//     #endif
+// #endif
+
+// #ifdef __has_include
+//     #if __has_include(<string>)
+//         #include <string>
+//         using String = std::string;
+//     #endif
+// #endif
+
+// #ifdef __has_include
+//     #if __has_include(<vector>)
+//         #include <vector>
+//         template<typename T>
+//         using Vector = std::vector;
+//     #endif
+// #endif
+#define Array std::array
+#define String std::string
+#define Vector std::vector
